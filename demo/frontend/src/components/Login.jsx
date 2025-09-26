@@ -93,7 +93,7 @@ const Login = () => {
           Login to <span className="text-blue-500">Club Matrix</span>
         </h1>
 
-        {/* Tabs */}
+       
         <div className="flex justify-center mb-6 space-x-4">
           <button
             className={`px-4 py-2 rounded-lg font-medium transition-all ${selectedMethod === "password"
@@ -123,10 +123,11 @@ const Login = () => {
           </button>
         </div>
 
-        {/* Message */}
+       
+
         {message.text && (
           <div
-            className={`mb-4 p-3 rounded-md text-center font-medium ${message.type === "success" ? "bg-green-600" : "bg-red-600"
+            className={`mb-4 p-3 rounded-md text-center font-medium ${message.type === "success" ?  "text-green-600" : "text-red-600"
               }`}
           >
             {message.text}
@@ -166,6 +167,8 @@ const Login = () => {
             </button>
           </form>
         )}
+
+
 
         {selectedMethod === "otp" && (
           <>
@@ -227,8 +230,6 @@ const Login = () => {
 
 
 
-
-        {/* Footer link */}
         <p className="mt-6 text-center text-sm text-gray-400">
           Don’t have an account?{" "}
           <span

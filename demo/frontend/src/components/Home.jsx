@@ -3,7 +3,7 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Tutorial from './Tutorial';
+
 import About from './About'
 
 const Home = () => {
@@ -43,12 +43,12 @@ const Home = () => {
     <div className="bg-[#0d1117] min-h-screen flex flex-col text-white overflow-x-hidden shadow-xl">
 
 
-      {/* Navbar */}
+      
       <Navbar />
-      {/* Hero Section */}
+      
       <div className="flex flex-1 flex-col md:flex-row items-center justify-center md:gap-20 lg:gap-32 px-6 py-12 md:py-0 min-h-screen w-full">
 
-        {/* Left Content (main content) */}
+        
         <div className="flex flex-col space-y-6 text-center md:text-left max-w-xl">
           <h1 className="text-4xl md:text-6xl font-extrabold leading-tight">
             Connecting School Clubs,<br /> Empowering Communities & Organisations.
@@ -59,7 +59,7 @@ const Home = () => {
 
           {message.text && (
             <div
-              className={`p-3 rounded-md text-sm md:text-base w-full max-w-md ${message.type === 'success' ? 'bg-green-600 text-white' : 'bg-red-600 text-white'}`}
+              className={`p-3 rounded-md text-sm md:text-base w-full max-w-md ${message.type === 'success' ? 'text-green-600 ' : 'text-red-600'}`}
             >
               {message.text}
             </div>
@@ -91,10 +91,10 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Right Side Illustration */}
+        
         <div className="mt-10 md:mt-0 md:ml-8 flex justify-center items-center max-w-full overflow-hidden">
 
-          {/* Desktop Illustration */}
+          
           <div className="hidden md:block relative w-80 h-96">
             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-purple-500 via-pink-500 to-red-500 rounded-3xl shadow-2xl transform rotate-12 animate-pulse"></div>
             <div className="absolute top-8 left-4 w-64 h-32 bg-yellow-400 rounded-xl shadow-xl transform rotate-6"></div>
@@ -105,8 +105,6 @@ const Home = () => {
       </div>
 
       <About/>
-     
-      <Tutorial />
 
       <Footer />  
     </div>

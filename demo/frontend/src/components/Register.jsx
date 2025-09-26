@@ -41,7 +41,7 @@ const Register = () => {
     try {
       const response = await axios.post(
         "https://cm-backend-production-642e.up.railway.app/login/verify/otp",
-        { phone, otp }   // <-- use phone + otp
+        { phone, otp }   
       );
       if (response.data.success) {
         setMessage({ type: "success", text: response.data.message });
@@ -88,7 +88,7 @@ const Register = () => {
 
         {message.text && (
           <div
-            className={`p-3 mb-4 rounded-md text-center font-medium ${message.type === "success" ? "bg-green-600" : "bg-red-600"
+            className={`p-3 mb-4 rounded-md text-center font-medium ${message.type === "success" ? "text-green-600" : "text-red-600"
               }`}
           >
             {message.text}

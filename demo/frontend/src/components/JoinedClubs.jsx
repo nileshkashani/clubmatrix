@@ -11,7 +11,7 @@ const JoinedClubs = () => {
   const [clubMembers, setClubMembers] = useState([]);
   const [announcements, setAnnouncements] = useState([]);
   const [message, setMessage] = useState({ type: "", text: "" });
-  const [loading, setLoading] = useState(true); // ✅ track loading
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
     const fetchJoinedClubs = async () => {
@@ -45,7 +45,7 @@ const JoinedClubs = () => {
         console.error("Error fetching joined clubs:", err);
         setMessage({ type: "error", text: "Failed to load joined clubs." });
       } finally {
-        setLoading(false); // ✅ finished loading
+        setLoading(false); 
       }
     };
 
@@ -124,11 +124,11 @@ const JoinedClubs = () => {
         </nav>
       </aside>
 
-      {/* Main Content */}
+      
       <main className="flex-1 p-6 overflow-y-auto">
         <button
-          onClick={() => navigate(-1)}
-          className="mb-4 px-4 py-2 bg-transparent text-blue-400 rounded-md text-white font-medium transition"
+          onClick={() => navigate("/")}
+          className="mb-4 px-4 py-2 bg-transparent text-blue-400 rounded-md font-medium transition"
         >
           &larr; Back
         </button>

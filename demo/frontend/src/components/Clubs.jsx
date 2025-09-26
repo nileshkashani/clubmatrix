@@ -91,7 +91,7 @@ const Clubs = () => {
         Explore Clubs
       </h1>
 
-      {/* Search and Filter */}
+      
       <div className="flex flex-col md:flex-row gap-4 max-w-4xl mx-auto mb-10">
         <input
           type="text"
@@ -113,7 +113,7 @@ const Clubs = () => {
         </select>
       </div>
 
-      {/* Joined Clubs */}
+      
       {joinedClubs.length > 0 && (
         <div className="max-w-6xl mx-auto mb-12">
           <h2 className="text-2xl font-semibold mb-6">Clubs You Joined</h2>
@@ -147,7 +147,7 @@ const Clubs = () => {
         </div>
       )}
 
-      {/* Other Clubs */}
+      
       <div className="max-w-6xl mx-auto mb-12">
         <h2 className="text-2xl font-semibold mb-6">Clubs You Can Join</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

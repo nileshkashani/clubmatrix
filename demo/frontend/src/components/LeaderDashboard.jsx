@@ -15,7 +15,7 @@ const LeaderDashboard = () => {
   const user = JSON.parse(localStorage.getItem("user"));
   const leaderId = user.id;
 
-  // Tabs handlers
+  
   const handleTabClubDetails = async () => {
     setActiveTab("club");
     try {
@@ -78,7 +78,7 @@ const LeaderDashboard = () => {
     }
   };
 
-  // Actions
+
   const handleApprove = async (request) => {
     try {
       const clubId = request.club.id;
@@ -139,7 +139,7 @@ const LeaderDashboard = () => {
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-[#0d1117] text-white">
-      {/* Sidebar */}
+
       <aside className="w-full md:w-64 bg-[#161b22] shadow-md flex flex-col">
         <div className="p-4 text-2xl font-bold border-b border-gray-700">Club Leader</div>
         <nav className="flex-1 p-4 space-y-2">
@@ -164,9 +164,9 @@ const LeaderDashboard = () => {
         </nav>
       </aside>
 
-      {/* Main Content */}
+
       <main className="flex-1 p-6 overflow-y-auto space-y-6">
-        {/* Back button */}
+
         <button
           onClick={() => navigate("/")}
           className="flex items-center text-blue-400 hover:text-blue-600 mb-4"
@@ -177,7 +177,7 @@ const LeaderDashboard = () => {
 
         {message.text && (
           <div
-            className={`p-3 rounded-md text-sm ${message.type === "success" ? "bg-green-600 text-white" : "bg-red-600 text-white"
+            className={`p-3 rounded-md text-sm ${message.type === "success" ? "text-green-600 " : "text-red-600"
               }`}
           >
             {message.text}

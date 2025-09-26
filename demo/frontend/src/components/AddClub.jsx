@@ -8,7 +8,7 @@ const AddClub = () => {
   const [membershipType, setMembershipType] = useState("Open");
   const [contactEmail, setContactEmail] = useState("");
   const [clubCategory, setClubCategory] = useState("");
-  const [message, setMessage] = useState(null); // { type: 'success'|'error', text: '' }
+  const [message, setMessage] = useState(null); 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
