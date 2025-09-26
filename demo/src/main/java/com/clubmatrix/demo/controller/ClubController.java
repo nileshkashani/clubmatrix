@@ -61,12 +61,7 @@ public class ClubController {
 	@GetMapping("/members/leader/{leaderId}")
 	public ResponseEntity<?> getMembersByLeader(@PathVariable int leaderId) {
 	    try {
-	        // 1️⃣ Find the club led by this leader
-	    	// If single club per leader 
 	    	Club club = clubRepository.findByLeaderId(leaderId);
-	    	
-
-	        // 2️⃣ Fetch members of the club
 	        List<Member> members = memberRepository.findByClub(club);
 
 	        return ResponseEntity.ok(Map.of(

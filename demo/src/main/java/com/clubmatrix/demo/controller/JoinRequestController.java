@@ -2,7 +2,6 @@ package com.clubmatrix.demo.controller;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +27,6 @@ public class JoinRequestController {
     @Autowired
     private ClubRepository clubRepository;
 
-    // User requests to join a club
     @PostMapping("/request/{clubId}/{userId}")
     public ResponseEntity<?> joinRequests(@PathVariable int clubId, @PathVariable int userId) {
     	   System.out.println("Join request received: clubId=" + clubId + ", userId=" + userId);
@@ -58,7 +56,6 @@ public class JoinRequestController {
         }
     }
 
-    // Club leader (or admin) deletes/cancels a join request
     @DeleteMapping("/delete/{requestId}")
     public ResponseEntity<?> deleteRequest(@PathVariable int requestId) {
     	
@@ -78,10 +75,8 @@ public class JoinRequestController {
     @GetMapping("/requests/leader/{leaderId}")
     public ResponseEntity<?> getAllRequests(@PathVariable int leaderId) {
         try {
-            // Fetch all clubs led by this leader
             Club leaderClubs = clubRepository.findByLeaderId(leaderId);
 
-            // Fetch all join requests for these clubs
             List<JoinRequest> requests = joinRequestRepository.findByClub(leaderClubs);
 
             return ResponseEntity.ok(Map.of(

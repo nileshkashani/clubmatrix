@@ -10,21 +10,21 @@ public class JoinRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    // Each join request belongs to one user
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private UserLogin user;
 
-    // Each join request belongs to one club
+
     @ManyToOne
     @JoinColumn(name = "club_id", nullable = false)
     private Club club;
 
-    private String status; // PENDING, APPROVED, REJECTED
+    private String status; 
 
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    // Getters and Setters
+
     public int getId() {
         return id;
     }

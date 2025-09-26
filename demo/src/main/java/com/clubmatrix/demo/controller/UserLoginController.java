@@ -1,12 +1,10 @@
 package com.clubmatrix.demo.controller;
 
 import java.util.Map;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,7 +47,7 @@ public class UserLoginController {
 
 		UserLogin user = userLoginRepository.findByPhoneNo(phone);
 		if (user == null) {
-			return ResponseEntity.status(404) // Use 404 Not Found for non-existent users
+			return ResponseEntity.status(404) 
 					.body(Map.of("success", false, "message", "User not registered, please register first!"));
 		}
 
@@ -98,16 +96,15 @@ public class UserLoginController {
 
 			UserLogin user = userLoginRepository.findByEmail(email);
 			if (user == null) {
-				return ResponseEntity.status(404) // Use 404 Not Found for non-existent users
+				return ResponseEntity.status(404) 
 						.body(Map.of("success", false, "message", "User not registered, please register first!"));
 			}
 
-			// --- THIS IS THE CRITICAL PASSWORD CHECK ---
 			if (!user.getPassword().equals(password)) {
-				return ResponseEntity.status(401) // Use 401 Unauthorized for bad credentials
+				return ResponseEntity.status(401) 
 						.body(Map.of("success", false, "message", "Invalid email or password!"));
 			}
-			// -----------------------------------------
+			
 
 			return ResponseEntity
 					.ok(Map.of("success", true, "message", "User logged in successfully!", "user", user));
