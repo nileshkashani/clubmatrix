@@ -50,7 +50,7 @@ public class MemberController {
 		}
 		System.out.println(email);
 		try {
-			List<Member> member = memberRepository.findByEmail(email);
+			List<Member> member = memberRepository.findByEmail(email); 
 			if (member == null || member.isEmpty()) {
 				return ResponseEntity.status(404).body(Map.of(
 						"success", false,

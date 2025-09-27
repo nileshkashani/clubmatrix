@@ -26,11 +26,11 @@ public class UserLoginController {
 
 	@PostMapping("/send/otp")
 	public ResponseEntity<?> sendOtp(@RequestBody Map<String, String> request) {
-		String phone = request.get("phone");
-		if (phone == null || phone.isBlank()) {
-			return ResponseEntity.badRequest().body(Map.of("success", false, "message", "phone is required!"));
+		String phoneNo = request.get("phoneNo");
+		if (phoneNo == null || phoneNo.isBlank()) {
+			return ResponseEntity.badRequest().body(Map.of("success", false, "message", "phoneNo is required!"));
 		}
-		boolean sent = otpService.sendOtp(phone);
+		boolean sent = otpService.sendOtp(phoneNo);
 		return sent ? ResponseEntity.ok(Map.of("success", true, "message", "otp sent successfully!"))
 				: ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 						.body(Map.of("success", false, "message", "Error sending otp!"));
@@ -38,36 +38,46 @@ public class UserLoginController {
 
 	@PostMapping("/verify/otp")
 	public ResponseEntity<?> verifyOtp(@RequestBody Map<String, String> request) {
-		String phone = request.get("phone");
+		String phoneNo = request.get("phoneNo");
 		String otp = request.get("otp");
 
-		if (phone == null || phone.isBlank() || otp == null || otp.isBlank()) {
+		if (phoneNo == null || phoneNo.isBlank() || otp == null || otp.isBlank()) {
 			return ResponseEntity.badRequest().body(Map.of("success", false, "message", "OTP is required!"));
 		}
 
-		UserLogin user = userLoginRepository.findByPhoneNo(phone);
+		UserLogin user = userLoginRepository.findByPhoneNo(phoneNo);
 		if (user == null) {
-			return ResponseEntity.status(404) 
-					.body(Map.of("success", false, "message", "User not registered, please register first!"));
+            return ResponseEntity.status(404) 
+                            .body(Map.of("success", false, "message", "User not registered, please register first!"));
 		}
 
-		boolean verified = otpService.verifyOtp(phone, otp);
+		boolean verified = otpService.verifyOtp(phoneNo, otp);
 
-		return verified
-				? ResponseEntity.ok(Map.of(
-						"success", true,
-						"message", "otp verified successfully",
-						"user", user))
+		return verified ? ResponseEntity.ok(Map.of("success", true, "message", "otp verified successfully", "user", user))
 				: ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 						.body(Map.of("success", false, "message", "Invalid otp!"));
+	}
+	@PostMapping("/verify/otp/for/register")
+	public ResponseEntity<?> verifyOtpForRegister(@RequestBody Map<String, String> request) {
+		String phoneNo = request.get("phoneNo");
+		String otp = request.get("otp");
 
+		if (phoneNo == null || phoneNo.isBlank() || otp == null || otp.isBlank()) {
+			return ResponseEntity.badRequest().body(Map.of("success", false, "message", "OTP is required!"));
+		}
+
+		boolean verified = otpService.verifyOtp(phoneNo, otp);
+
+		return verified ? ResponseEntity.ok(Map.of("success", true, "message", "otp verified successfully" ))
+				: ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+						.body(Map.of("success", false, "message", "Invalid otp!"));
 	}
 
 	@PostMapping("/register")
 	public ResponseEntity<?> registerUser(@RequestBody UserLogin user) {
 		try {
 			UserLogin u2 = userLoginRepository.findByEmail(user.getEmail());
-
+			
 			if (u2 != null && u2.getEmail().equals(user.getEmail())) {
 				return ResponseEntity.badRequest()
 						.body(Map.of("success", false, "message", "user already exists, please login!"));
@@ -75,8 +85,7 @@ public class UserLoginController {
 
 			UserLogin savedUser = userLoginRepository.save(user);
 
-			return ResponseEntity
-					.ok(Map.of("success", true, "message", "user registered successfully!", "user", savedUser));
+			return ResponseEntity.ok(Map.of("success", true, "message", "user registered successfully!", "user", savedUser));
 		} catch (Exception e) {
 			return ResponseEntity.status(500).body(Map.of("success", false, "message", "Error: " + e.getMessage()));
 		}
@@ -84,32 +93,32 @@ public class UserLoginController {
 	}
 
 	@PostMapping("/password")
-	public ResponseEntity<?> userLogin(@RequestBody Map<String, String> request) {
-		try {
-			String email = request.get("email");
-			String password = request.get("password");
+public ResponseEntity<?> userLogin(@RequestBody Map<String, String> request) {
+    try {
+        String email = request.get("email");
+        String password = request.get("password");
 
-			if (email == null || email.isBlank() || password == null || password.isBlank()) {
-				return ResponseEntity.status(400)
-						.body(Map.of("success", false, "message", "Email and password required!"));
-			}
+        if (email == null || email.isBlank() || password == null || password.isBlank()) {
+            return ResponseEntity.status(400)
+                            .body(Map.of("success", false, "message", "Email and password required!"));
+        }
 
-			UserLogin user = userLoginRepository.findByEmail(email);
-			if (user == null) {
-				return ResponseEntity.status(404) 
-						.body(Map.of("success", false, "message", "User not registered, please register first!"));
-			}
+        UserLogin user = userLoginRepository.findByEmail(email);
+        if (user == null) {
+            return ResponseEntity.status(404) 
+                            .body(Map.of("success", false, "message", "User not registered, please register first!"));
+        }
 
-			if (!user.getPassword().equals(password)) {
-				return ResponseEntity.status(401) 
-						.body(Map.of("success", false, "message", "Invalid email or password!"));
-			}
-			
-
-			return ResponseEntity
-					.ok(Map.of("success", true, "message", "User logged in successfully!", "user", user));
-		} catch (Exception e) {
-			return ResponseEntity.status(500).body(Map.of("success", false, "message", "Error: " + e.getMessage()));
-		}
-	}
+      
+        if (!user.getPassword().equals(password)) {
+            return ResponseEntity.status(401) 
+                            .body(Map.of("success", false, "message", "Invalid email or password!"));
+        }
+       
+        return ResponseEntity
+                        .ok(Map.of("success", true, "message", "User logged in successfully!", "user", user));
+    } catch (Exception e) {
+        return ResponseEntity.status(500).body(Map.of("success", false, "message", "Error: " + e.getMessage()));
+    }
+}
 }

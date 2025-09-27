@@ -7,31 +7,17 @@ const Profile = () => {
   const [message, setMessage] = useState({ type: "", text: "" });
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    console.log(storedUser);
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-      setLoading(false);
-    } else {
-      const fetchUser = async () => {
-        try {
+  const storedUser = localStorage.getItem("user");
 
-          const res = localStorage.getItem("user");
-          if (res.data?.user) {
-            setUser(res.data.user);
-          } else {
-            setMessage({ type: "error", text: "No user logged in" });
-          }
-        } catch (err) {
-          console.error("Failed to fetch user:", err);
-          setMessage({ type: "error", text: "Please Login!" });
-        } finally {
-          setLoading(false);
-        }
-      };
-      fetchUser();
-    }
-  }, []);
+  if (storedUser) {
+    setUser(JSON.parse(storedUser)); 
+    setLoading(false);
+  } else {
+    setMessage({ type: "error", text: "No user logged in" });
+    setLoading(false);
+  }
+}, []);
+
 
   if (loading) {
     return (
@@ -46,7 +32,7 @@ const Profile = () => {
   if (!user) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-[#0d1117]">
-        <div className="p-4 text-red-600 rounded-2xl shadow-md text-center w-80 md:w-96">
+        <div className="p-4 bg-red-600 text-white rounded-2xl shadow-md text-center w-80 md:w-96">
           {message.text || "No user logged in"}
         </div>
       </div>

@@ -10,34 +10,43 @@ const Clubs = () => {
   const [joinedClubs, setJoinedClubs] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [category, setCategory] = useState("all");
-  const [messages, setMessages] = useState({}); // store messages per club
+  const [messages, setMessages] = useState({});
 
   const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
+    const userData = user;
+    console.log(userData)
+    if (!userData) return;
+
     const fetchClubs = async () => {
       try {
+
         const res = await axios.get("https://cm-backend-production-642e.up.railway.app/club/getall");
+        console.log(res)
         setClubs(res.data);
 
-        if (user) {
-          const joinedRes = await axios.get("https://cm-backend-production-642e.up.railway.app/member/email", {
-            params: { email: user.email },
-          });
-          if (joinedRes.data.success) {
-            const memberArray = Array.isArray(joinedRes.data.data)
-              ? joinedRes.data.data
-              : [joinedRes.data.data];
-            const joined = memberArray.map((m) => m.club);
-            setJoinedClubs(joined);
-          }
+   
+        const joinedRes = await axios.get(
+          "https://cm-backend-production-642e.up.railway.app/member/email",
+          { params: { email: userData.email } }
+        );
+
+        if (joinedRes.data.success) {
+          const memberArray = Array.isArray(joinedRes.data.data)
+            ? joinedRes.data.data
+            : [joinedRes.data.data].filter(Boolean);
+          const joined = memberArray.map((m) => m.club);
+          setJoinedClubs(joined);
         }
       } catch (e) {
         console.error(e);
       }
     };
+
     fetchClubs();
-  }, [user]);
+  }, []);
+
 
   const categories = ["all", ...new Set(clubs.map((club) => club.clubCategory))];
 
@@ -59,7 +68,7 @@ const Clubs = () => {
     }
     try {
       const res = await axios.post(
-        `https://cm-backend-production-642e.up.railway.app/join/request/${clubId}/${user.user.id}`
+        `https://cm-backend-production-642e.up.railway.app/join/request/${clubId}/${user.id}`
       );
       setMessages((prev) => ({
         ...prev,
@@ -91,7 +100,7 @@ const Clubs = () => {
         Explore Clubs
       </h1>
 
-      
+     
       <div className="flex flex-col md:flex-row gap-4 max-w-4xl mx-auto mb-10">
         <input
           type="text"
@@ -113,7 +122,7 @@ const Clubs = () => {
         </select>
       </div>
 
-      
+
       {joinedClubs.length > 0 && (
         <div className="max-w-6xl mx-auto mb-12">
           <h2 className="text-2xl font-semibold mb-6">Clubs You Joined</h2>
@@ -147,14 +156,14 @@ const Clubs = () => {
         </div>
       )}
 
-      
+
       <div className="max-w-6xl mx-auto mb-12">
         <h2 className="text-2xl font-semibold mb-6">Clubs You Can Join</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {notJoinedClubs.map((club) => (
             <div
               key={club.id}
-              className="bg-[#161b22] rounded-xl shadow-lg p-6 flex flex-col justify-between hover:scale-[1.02] transition-transform"
+              className="bg-[#161b22] rounded-xl shadow-lg p-6 flex flex-col justify-between transition-transform"
             >
               <div>
                 <h2 className="text-xl font-semibold text-white mb-2">{club.clubName}</h2>
@@ -173,8 +182,8 @@ const Clubs = () => {
                 {messages[club.id] && (
                   <div
                     className={`mb-2 p-2 rounded-md text-sm ${messages[club.id].type === "success"
-                        ? "bg-green-600 text-white"
-                        : "bg-red-600 text-white"
+                      ? "bg-green-600 text-white"
+                      : "bg-red-600 text-white"
                       }`}
                   >
                     {messages[club.id].text}

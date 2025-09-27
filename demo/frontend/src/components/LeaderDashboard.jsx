@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const LeaderDashboard = () => {
-  const navigate = useNavigate(); // <-- add this
+  const navigate = useNavigate();  
   const [activeTab, setActiveTab] = useState("club");
   const [joinRequests, setJoinRequests] = useState([]);
   const [members, setMembers] = useState([]);
@@ -14,8 +14,9 @@ const LeaderDashboard = () => {
 
   const user = JSON.parse(localStorage.getItem("user"));
   const leaderId = user.id;
+  console.log(leaderId)
 
-  
+ 
   const handleTabClubDetails = async () => {
     setActiveTab("club");
     try {
@@ -51,6 +52,7 @@ const LeaderDashboard = () => {
         `https://cm-backend-production-642e.up.railway.app/club/members/leader/${leaderId}`
       );
       setMembers(res.data.data || []);
+      console.log(res.data.data);
     } catch (err) {
       console.error(err);
       setMembers([]);
@@ -78,7 +80,7 @@ const LeaderDashboard = () => {
     }
   };
 
-
+ 
   const handleApprove = async (request) => {
     try {
       const clubId = request.club.id;
@@ -139,7 +141,7 @@ const LeaderDashboard = () => {
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-[#0d1117] text-white">
-
+     
       <aside className="w-full md:w-64 bg-[#161b22] shadow-md flex flex-col">
         <div className="p-4 text-2xl font-bold border-b border-gray-700">Club Leader</div>
         <nav className="flex-1 p-4 space-y-2">
@@ -153,8 +155,8 @@ const LeaderDashboard = () => {
               key={tab.key}
               onClick={tab.handler}
               className={`flex items-center w-full p-2 rounded-md transition ${activeTab === tab.key
-                  ? "bg-blue-600 text-white"
-                  : "hover:bg-blue-700/30 text-gray-200"
+                ? "bg-blue-600 text-white"
+                : "hover:bg-blue-700/30 text-gray-200"
                 }`}
             >
               <tab.icon className="w-5 h-5 mr-2" />
@@ -164,9 +166,7 @@ const LeaderDashboard = () => {
         </nav>
       </aside>
 
-
       <main className="flex-1 p-6 overflow-y-auto space-y-6">
-
         <button
           onClick={() => navigate("/")}
           className="flex items-center text-blue-400 hover:text-blue-600 mb-4"
@@ -177,7 +177,7 @@ const LeaderDashboard = () => {
 
         {message.text && (
           <div
-            className={`p-3 rounded-md text-sm ${message.type === "success" ? "text-green-600 " : "text-red-600"
+            className={`p-3 rounded-md text-sm ${message.type === "success" ? "bg-green-600 text-white" : "bg-red-600 text-white"
               }`}
           >
             {message.text}
@@ -225,26 +225,28 @@ const LeaderDashboard = () => {
           </div>
         )}
 
-        {activeTab === "members" && (
-          <div className="bg-[#161b22] p-6 rounded-2xl shadow-md space-y-2">
-            <h2 className="text-2xl font-bold mb-4">Club Members</h2>
-            {members.length === 0 ? (
-              <p className="text-gray-400">No members in your club.</p>
-            ) : (
-              members.map((m) => (
-                <div key={m.memberId} className="flex justify-between items-center p-2 border-b border-gray-700">
-                  <span>{m.memberName || "Unnamed Member"}</span>
-                  <button
-                    className="bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-700"
-                    onClick={() => handleRemove(m.memberId)}
-                  >
-                    Remove
-                  </button>
-                </div>
-              ))
+        {members.map((m, idx) => (
+          <div
+            key={m.memberId}
+            className="flex justify-between items-center p-2 border-b border-gray-700"
+          >
+            <span>
+              {m.memberName || "Unnamed Member"}{" "}
+              {idx === 0 && <span className="text-sm text-blue-400">(Leader)</span>}
+            </span>
+
+            {idx !== 0 && (
+              <button
+                className="bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-700"
+                onClick={() => handleRemove(m.memberId)}
+              >
+                Remove
+              </button>
             )}
           </div>
-        )}
+        ))}
+
+
 
         {activeTab === "announcements" && (
           <>

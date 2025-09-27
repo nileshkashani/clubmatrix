@@ -27,6 +27,7 @@ public class JoinRequestController {
     @Autowired
     private ClubRepository clubRepository;
 
+
     @PostMapping("/request/{clubId}/{userId}")
     public ResponseEntity<?> joinRequests(@PathVariable int clubId, @PathVariable int userId) {
     	   System.out.println("Join request received: clubId=" + clubId + ", userId=" + userId);
@@ -56,6 +57,7 @@ public class JoinRequestController {
         }
     }
 
+   
     @DeleteMapping("/delete/{requestId}")
     public ResponseEntity<?> deleteRequest(@PathVariable int requestId) {
     	
@@ -75,8 +77,10 @@ public class JoinRequestController {
     @GetMapping("/requests/leader/{leaderId}")
     public ResponseEntity<?> getAllRequests(@PathVariable int leaderId) {
         try {
+        
             Club leaderClubs = clubRepository.findByLeaderId(leaderId);
 
+           
             List<JoinRequest> requests = joinRequestRepository.findByClub(leaderClubs);
 
             return ResponseEntity.ok(Map.of(

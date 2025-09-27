@@ -31,7 +31,7 @@ public class OtpService {
     private String normalizePhoneNumber(String phone) {
         phone = phone.replaceAll("[^\\d]", "");
         if (!phone.startsWith("+")) {
-            phone = "+91" + phone; 
+            phone = "+91" + phone;
         }
         return phone;
     }

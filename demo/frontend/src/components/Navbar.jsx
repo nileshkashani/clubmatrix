@@ -25,7 +25,6 @@ const Navbar = () => {
     <nav className="bg-black/30 shadow-xl fixed w-full z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* 
           <div
             className="text-3xl font-bold text-white tracking-wide cursor-pointer"
             onClick={() => navigate('/')}
@@ -33,7 +32,6 @@ const Navbar = () => {
             Club Matrix
           </div>
 
-          
           <div className="hidden md:flex flex-1 justify-center space-x-8 items-center">
             <NavLink
               to="/"
@@ -61,7 +59,6 @@ const Navbar = () => {
             </NavLink>
           </div>
 
-
           <div className="hidden md:flex space-x-4 items-center">
             {!login ? (
               <>
@@ -88,7 +85,6 @@ const Navbar = () => {
             )}
           </div>
 
-          
           <div className="md:hidden flex items-center">
             <button onClick={() => setMenuOpen(!menuOpen)} className="text-white focus:outline-none">
               <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -103,7 +99,6 @@ const Navbar = () => {
         </div>
       </div>
 
-      
       {menuOpen && (
         <div className="md:hidden bg-black/70 w-full px-4 py-4 space-y-2">
           <NavLink to="/" onClick={() => setMenuOpen(false)} className={({ isActive }) => `block text-lg ${isActive ? 'text-white font-semibold' : 'text-gray-300 hover:text-white'}`}>

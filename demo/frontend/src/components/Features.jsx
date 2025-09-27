@@ -3,7 +3,7 @@ import React from "react";
 const Features = () => {
   return (
     <div className="relative min-h-screen bg-[#161b22] text-white px-6 py-12 flex flex-col items-center overflow-hidden">
-      
+    
       <div
         className="absolute inset-0 -z-10 w-full h-full"
         style={{
@@ -18,7 +18,7 @@ const Features = () => {
       </h1>
 
       <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-8">
-        
+    
         <div className="bg-[#0d1117] p-6 rounded-xl shadow-xl border border-[#2a2c38]">
           <h2 className="text-xl font-bold mb-4 text-blue-400">Club Discovery</h2>
           <p className="text-gray-300 leading-relaxed">

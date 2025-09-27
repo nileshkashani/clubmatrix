@@ -41,7 +41,7 @@ const Login = () => {
     try {
       const res = await axios.post(
         "https://cm-backend-production-642e.up.railway.app/login/send/otp",
-        { phone }
+        { phoneNo: phone.trim() }
       );
       if (res.data.success) {
         setMessage({ type: "success", text: "OTP sent successfully! Check your phone." });
@@ -58,11 +58,10 @@ const Login = () => {
     try {
       const res = await axios.post(
         "https://cm-backend-production-642e.up.railway.app/login/verify/otp",
-        { phone, otp }
+        { phoneNo: phone.trim(), otp }
       );
 
       if (res.data.success) {
-        // store only the user object
         localStorage.setItem("user", JSON.stringify(res.data.user));
         localStorage.setItem("isAuthenticated", "true");
 
@@ -75,7 +74,15 @@ const Login = () => {
       }
     } catch (err) {
       console.error(err);
-      setMessage({ type: "error", text: "OTP verification failed. Please try again." });
+
+      let errorText = "Something went wrong";
+      if (err.response?.data?.message) {
+        errorText = err.response.data.message; 
+      } else if (err.message) {
+        errorText = err.message; 
+      }
+
+      setMessage({ type: "error", text: errorText });
     }
   };
 
@@ -93,7 +100,6 @@ const Login = () => {
           Login to <span className="text-blue-500">Club Matrix</span>
         </h1>
 
-       
         <div className="flex justify-center mb-6 space-x-4">
           <button
             className={`px-4 py-2 rounded-lg font-medium transition-all ${selectedMethod === "password"
@@ -123,18 +129,15 @@ const Login = () => {
           </button>
         </div>
 
-       
-
         {message.text && (
           <div
-            className={`mb-4 p-3 rounded-md text-center font-medium ${message.type === "success" ?  "text-green-600" : "text-red-600"
+            className={`mb-4 p-3 rounded-md text-center font-medium ${message.type === "success" ? "bg-green-600" : "bg-red-600"
               }`}
           >
             {message.text}
           </div>
         )}
 
-        {/* Forms */}
         {selectedMethod === "password" && (
           <form onSubmit={handlePasswordSubmit} className="space-y-5">
             <div>
@@ -167,8 +170,6 @@ const Login = () => {
             </button>
           </form>
         )}
-
-
 
         {selectedMethod === "otp" && (
           <>
@@ -227,6 +228,7 @@ const Login = () => {
             )}
           </>
         )}
+
 
 
 

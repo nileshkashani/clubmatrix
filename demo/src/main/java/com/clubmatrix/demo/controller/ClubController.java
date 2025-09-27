@@ -61,7 +61,9 @@ public class ClubController {
 	@GetMapping("/members/leader/{leaderId}")
 	public ResponseEntity<?> getMembersByLeader(@PathVariable int leaderId) {
 	    try {
+	        
 	    	Club club = clubRepository.findByLeaderId(leaderId);
+	    	
 	        List<Member> members = memberRepository.findByClub(club);
 
 	        return ResponseEntity.ok(Map.of(

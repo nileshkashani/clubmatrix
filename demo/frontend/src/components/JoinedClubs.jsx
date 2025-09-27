@@ -11,7 +11,7 @@ const JoinedClubs = () => {
   const [clubMembers, setClubMembers] = useState([]);
   const [announcements, setAnnouncements] = useState([]);
   const [message, setMessage] = useState({ type: "", text: "" });
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchJoinedClubs = async () => {
@@ -45,7 +45,7 @@ const JoinedClubs = () => {
         console.error("Error fetching joined clubs:", err);
         setMessage({ type: "error", text: "Failed to load joined clubs." });
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     };
 
@@ -53,15 +53,25 @@ const JoinedClubs = () => {
   }, []);
 
 
+
   useEffect(() => {
     if (!selectedClub) return;
 
     const fetchClubData = async () => {
       try {
+        const user = JSON.parse(localStorage.getItem("user"));
+        const leaderId = user?.id;
+
         const membersRes = await axios.get(
           `https://cm-backend-production-642e.up.railway.app/member/club/${selectedClub.id}`
         );
-        setClubMembers(membersRes.data.data || []);
+
+        const membersWithRole = (membersRes.data.data || []).map((m) => ({
+          ...m,
+          isLeader: Number(m.club.leaderId) === Number(selectedClub.leaderId),
+        }));
+
+        setClubMembers(membersWithRole);
 
         const announcementsRes = await axios.get(
           `https://cm-backend-production-642e.up.railway.app/announcement/get/all/${selectedClub.id}`
@@ -78,7 +88,8 @@ const JoinedClubs = () => {
     fetchClubData();
   }, [selectedClub]);
 
-  const handleSelectClub = async (club) => {
+
+  const handleSelectClub = (club) => {
     setSelectedClub(club);
   };
 
@@ -98,7 +109,6 @@ const JoinedClubs = () => {
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-[#0d1117] text-white">
-      {/* Sidebar: Joined Clubs */}
       <aside className="w-full md:w-64 bg-[#161b22] shadow-md flex flex-col">
         <div className="p-4 text-2xl font-bold border-b border-gray-700">Joined Clubs</div>
         <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
@@ -124,10 +134,9 @@ const JoinedClubs = () => {
         </nav>
       </aside>
 
-      
       <main className="flex-1 p-6 overflow-y-auto">
         <button
-          onClick={() => navigate("/")}
+          onClick={() => navigate(-1)}
           className="mb-4 px-4 py-2 bg-transparent text-blue-400 rounded-md font-medium transition"
         >
           &larr; Back
@@ -156,17 +165,21 @@ const JoinedClubs = () => {
                 {clubMembers.length === 0 ? (
                   <p className="text-gray-400">No members in this club.</p>
                 ) : (
-                  clubMembers.map((m) => (
+                  clubMembers.map((m, idx) => (
                     <div
                       key={m.memberId}
                       className="flex justify-between items-center p-2 border-b border-gray-700"
                     >
-                      <span>{m.memberName || "Unnamed Member"}</span>
+                      <span>
+                        {m.memberName || "Unnamed Member"}{" "}
+                        {idx === 0 && <span className="text-sm text-blue-400">(Leader)</span>}
+                      </span>
                     </div>
                   ))
                 )}
               </div>
             </div>
+
 
             <div className="bg-[#161b22] rounded-2xl shadow-md p-6">
               <h3 className="text-xl font-semibold mb-2">Announcements</h3>

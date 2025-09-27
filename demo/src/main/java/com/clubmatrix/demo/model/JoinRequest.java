@@ -10,11 +10,9 @@ public class JoinRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private UserLogin user;
-
 
     @ManyToOne
     @JoinColumn(name = "club_id", nullable = false)
@@ -23,7 +21,6 @@ public class JoinRequest {
     private String status; 
 
     private LocalDateTime createdAt = LocalDateTime.now();
-
 
     public int getId() {
         return id;
