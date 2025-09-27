@@ -3,7 +3,7 @@
 **Club Matrix** is a modern platform designed to seamlessly connect **school and community clubs** with their members. It empowers **members** to discover, join, and engage with clubs while providing **leaders** with powerful tools to manage activities, events, and communications.
 
 ***
-GitHub Guide
+### GitHub Guide
 Click on the demo folder → you will see the entire backend Java setup.
 Inside the frontend folder, you will find the frontend setup.
 
@@ -112,4 +112,5 @@ mvn clean install
 # Run Spring Boot application
 mvn spring-boot:run
 ```
+
 
