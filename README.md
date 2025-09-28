@@ -2,10 +2,14 @@
 
 **Club Matrix** is a modern platform designed to seamlessly connect **school and community clubs** with their members. It empowers **members** to discover, join, and engage with clubs while providing **leaders** with powerful tools to manage activities, events, and communications.
 
+### Google Drive Demo Video of WebSite
+https://drive.google.com/file/d/12dqyVba3lqEAe-m_Pp4cohsPviedgNhi/view?usp=drivesdk
+
 ***
 ### GitHub Guide
 Click on the demo folder → you will see the entire backend Java setup.
 Inside the frontend folder, you will find the frontend setup.
+
 
 ##  Features
 
