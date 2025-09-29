@@ -5,6 +5,8 @@
 ### Google Drive Demo Video of WebSite
 https://drive.google.com/file/d/12dqyVba3lqEAe-m_Pp4cohsPviedgNhi/view?usp=drivesdk
 
+### Google drive link for ppt
+https://docs.google.com/presentation/d/1MmQi2aZFsWRnDX1jELx425gngcQh4GFR/edit?usp=drivesdk&ouid=117048639757627609872&rtpof=true&sd=true
 ***
 ### GitHub Guide
 Click on the demo folder → you will see the entire backend Java setup.
